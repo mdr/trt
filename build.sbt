@@ -134,6 +134,8 @@ scriptClasspath := Seq("*") // To avoid long classpath in Windows dist, see http
 
 net.virtualvoid.sbt.graph.Plugin.graphSettings
 
+routesGenerator := InjectedRoutesGenerator
+
 // == Docker ===================================================================================
 
 maintainer in Docker := "Matt Russell <MattRussellUK@gmail.com>"

@@ -1,6 +1,7 @@
+package di
+
 import scala.concurrent.duration._
 import com.thetestpeople.trt.analysis.AnalysisService
-import com.thetestpeople.trt.Config
 import com.thetestpeople.trt.model.impl.SlickDao
 import com.thetestpeople.trt.model.impl.migration.DbMigrator
 import com.thetestpeople.trt.service._
@@ -19,6 +20,8 @@ import java.io.File
 import com.thetestpeople.trt.service.indexing.LogIndexer
 import com.thetestpeople.trt.importer._
 import play.api.libs.ws.WS
+import com.thetestpeople.trt.Config
+import play.api.Environment
 
 /**
  * Lightweight dependency injection: constructs the objects used by the application

@@ -1,3 +1,5 @@
+package di
+
 import scala.concurrent.duration._
 import play.api._
 import play.api.libs.concurrent.Akka
@@ -9,6 +11,7 @@ import scala.concurrent.Future
 import play.api.mvc.WithFilters
 import com.thetestpeople.trt.filters.LoggingFilter
 import controllers.ControllerHelper
+import di.Factory
 
 object Global extends WithFilters(LoggingFilter) with GlobalSettings with HasLogger {
 
