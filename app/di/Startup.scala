@@ -1,4 +1,6 @@
 package di
+import com.google.inject._
+import play.api.Application
 
 import scala.concurrent.duration._
 import play.api._
@@ -12,13 +14,13 @@ import play.api.mvc.WithFilters
 import com.thetestpeople.trt.filters.LoggingFilter
 import controllers.ControllerHelper
 
-object Global extends WithFilters(LoggingFilter) with GlobalSettings with HasLogger {
+@Singleton
+class Startup @Inject() (app: Application, factory: Factory) extends HasLogger {
 
-  private var factory: Factory = _
-
-  override def onStart(app: Application) {
+  onStart(app)
+  
+  def onStart(app: Application) {
     logger.debug("onStart()")
-    factory = new Factory(Play.current.configuration)
     factory.dbMigrator.migrate()
 
     for (name ← app.configuration.getString("ui.applicationName"))
@@ -65,11 +67,9 @@ object Global extends WithFilters(LoggingFilter) with GlobalSettings with HasLog
     logger.info("Scheduled analysis of all executions")
   }
 
-  override def onStop(app: Application) {
+   def onStop(app: Application) {
     logger.debug("onStop()")
     factory.ciImportWorker.stop()
   }
-
-  // override def getControllerInstance[A](clazz: Class[A]): A = factory.getControllerInstance(clazz)
 
 }

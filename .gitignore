@@ -15,6 +15,7 @@ bin
 .cache
 .target
 .worksheet
+*.mv.db
 *.h2.db
 *.trace.db
 *.lock.db

@@ -22,11 +22,13 @@ import com.thetestpeople.trt.importer._
 import play.api.libs.ws.WS
 import com.thetestpeople.trt.Config
 import play.api.Environment
+import com.google.inject._
 
 /**
  * Lightweight dependency injection: constructs the objects used by the application
  */
-class Factory(configuration: Configuration) {
+@Singleton
+class Factory @Inject() (configuration: Configuration) {
 
   import Config._
   import play.api.Play.current

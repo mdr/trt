@@ -8,23 +8,20 @@ import play.api.Environment
 
 class ControllerProviderModule(environment: Environment, configuration: Configuration) extends AbstractModule {
 
-  private val factory = new Factory(configuration)
+  @Provides def controller(startup: Startup, factory: Factory): Application = factory.controller
+  @Provides def webApiController(factory: Factory) = factory.webApiController
+  @Provides def ciController(factory: Factory) = factory.ciController
+  @Provides def jsonController(factory: Factory) = factory.jsonController
+  @Provides def adminController(factory: Factory) = factory.adminController
+  @Provides def testController(factory: Factory) = factory.testController
+  @Provides def testsController(factory: Factory) = factory.testsController
+  @Provides def batchController(factory: Factory) = factory.batchController
+  @Provides def batchesController(factory: Factory) = factory.batchesController
+  @Provides def executionController(factory: Factory) = factory.executionController
+  @Provides def jenkinsController(factory: Factory) = factory.jenkinsController
+  @Provides def teamCityController(factory: Factory) = factory.teamCityController
+  @Provides def importLogController(factory: Factory) = factory.importLogController
 
-  @Provides def controller: Application = factory.controller
-  @Provides def webApiController = factory.webApiController
-  @Provides def ciController = factory.ciController
-  @Provides def jsonController = factory.jsonController
-  @Provides def adminController = factory.adminController
-  @Provides def testController = factory.testController
-  @Provides def testsController = factory.testsController
-  @Provides def batchController = factory.batchController
-  @Provides def batchesController = factory.batchesController
-  @Provides def executionController = factory.executionController
-  @Provides def jenkinsController = factory.jenkinsController
-  @Provides def teamCityController = factory.teamCityController
-  @Provides def importLogController = factory.importLogController
-
-  
   override def configure() {
 
   }
