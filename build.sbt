@@ -29,22 +29,22 @@ libraryDependencies ++= List(
   "org.pegdown" % "pegdown" % "1.0.2", // Needed for error when generating report: https://groups.google.com/forum/#!topic/scalatest-users/6TGms7jYn6E
   "org.joda" % "joda-convert" % "1.8.1",
   "com.github.tototoshi" %% "slick-joda-mapper" % "1.2.0",
-  "com.github.nscala-time" %% "nscala-time" % "1.4.0",
-  "commons-validator" % "commons-validator" % "1.4.0",
+  "com.github.nscala-time" %% "nscala-time" % "2.12.0",
+  "commons-validator" % "commons-validator" % "1.5.0",
   "commons-io" % "commons-io" % "2.4",
   "org.apache.lucene" % "lucene-core" % "4.9.0",
   "org.apache.lucene" % "lucene-analyzers-common" % "4.9.0",
   "org.apache.lucene" % "lucene-highlighter" % "4.9.0",
   "org.apache.lucene" % "lucene-queryparser" % "4.9.0",
   "com.google.guava" % "guava" % "16.0.1",
-  "org.liquibase" % "liquibase-core" % "3.1.1",
+  "org.liquibase" % "liquibase-core" % "3.4.2",
   "oro" % "oro" % "2.0.8",
-  "org.apache.httpcomponents" % "httpclient" % "4.3.1",
+  "org.apache.httpcomponents" % "httpclient" % "4.5.2",
   "com.xebialabs.cloud" % "overcast" % "2.4.0" exclude("org.libvirt", "libvirt"))
 
 libraryDependencies ++= List(
-  "org.scalatest" %% "scalatest" % "2.2.1" % "test",
-  "org.seleniumhq.selenium" % "selenium-java" % "2.52.0" % "test",
+  "org.scalatest" %% "scalatest" % "2.2.6" % "test",
+  "org.seleniumhq.selenium" % "selenium-java" % "2.53.0" % "test",
   "org.seleniumhq.selenium" % "selenium-htmlunit-driver" % "2.52.0" % "test",
   "com.codeborne" % "phantomjsdriver" % "1.2.1" % "test")
 
