@@ -12,7 +12,9 @@ import javax.sql.DataSource
 import java.net.URI
 import scala.slick.util.CloseableIterator
 import scala.slick.driver.H2Driver
+import com.google.inject.Singleton
 
+@Singleton
 class SlickDao(jdbcUrl: String, dataSourceOpt: Option[DataSource] = None)
     extends Dao
     with HasLogger

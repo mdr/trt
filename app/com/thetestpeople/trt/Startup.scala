@@ -1,4 +1,4 @@
-package di
+package com.thetestpeople.trt
 
 import scala.concurrent.Future
 import scala.concurrent.duration._

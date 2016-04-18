@@ -9,6 +9,7 @@ import play.api.mvc.Action
 import play.api.mvc.Controller
 import play.api.Routes
 import com.google.inject.Inject
+import play.api.routing.JavaScriptReverseRouter
 
 /**
  * Handle AJAX requests from the browser.
@@ -33,7 +34,7 @@ class WebApiController @Inject() (service: Service) extends Controller with HasL
   }
 
   def javascriptRoutes = Action { implicit request ⇒
-    Ok(Routes.javascriptRouter("jsRoutes")(
+    Ok(JavaScriptReverseRouter("jsRoutes")(
       routes.javascript.WebApiController.testNames,
       routes.javascript.WebApiController.groups,
       routes.javascript.WebApiController.categories,

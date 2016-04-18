@@ -1,12 +1,6 @@
-package di
-
 import java.io.File
-
 import scala.concurrent.duration._
-
-import com.google.inject.AbstractModule
-import com.google.inject.ImplementedBy
-import com.google.inject.Provides
+import com.google.inject._
 import com.thetestpeople.trt.Config._
 import com.thetestpeople.trt.model.Dao
 import com.thetestpeople.trt.model.impl.SlickDao
@@ -17,30 +11,30 @@ import com.thetestpeople.trt.utils.RichConfiguration.RichConfig
 import com.thetestpeople.trt.utils.http.Http
 import com.thetestpeople.trt.utils.http.PathCachingHttp
 import com.thetestpeople.trt.utils.http.WsHttp
-
 import javax.sql.DataSource
 import play.api.Application
 import play.api.Configuration
 import play.api.Environment
 import play.api.db.DB
 import play.api.libs.ws.WS
+import com.thetestpeople.trt.Startup
 
-class ControllerProviderModule(environment: Environment, configuration: Configuration) extends AbstractModule {
+class Module(environment: Environment, configuration: Configuration) extends AbstractModule {
 
-  @Provides def dao(dao: SlickDao): Dao = dao
+  @Provides @Singleton def dao(dao: SlickDao): Dao = dao
 
-  @Provides def ciDao(dao: SlickDao): CiDao = dao
+  @Provides @Singleton def ciDao(dao: SlickDao): CiDao = dao
 
-  @Provides def dataSource(implicit application: Application): DataSource = DB.getDataSource()
+  @Provides @Singleton def dataSource(implicit application: Application): DataSource = DB.getDataSource()
   
-  @Provides def slickDao(dataSource: DataSource): SlickDao = {
+  @Provides @Singleton def slickDao(dataSource: DataSource): SlickDao = {
     val jdbcUrl: String = configuration.getString(Db.Default.Url).getOrElse(
       throw new RuntimeException(s"No value set for property '${Db.Default.Url}'"))
 
     new SlickDao(jdbcUrl, Some(dataSource))
   }
 
-  @Provides def logIndexer(): LogIndexer = {
+  @Provides @Singleton def logIndexer(): LogIndexer = {
     val luceneInMemory: Boolean =
       configuration.getBoolean(Lucene.InMemory).getOrElse(false)
 
@@ -53,7 +47,7 @@ class ControllerProviderModule(environment: Environment, configuration: Configur
       LuceneLogIndexer.fileBackedIndexer(new File(luceneIndexLocation))
   }
 
-  @Provides def http(implicit application: Application): Http = {
+  @Provides @Singleton def http(implicit application: Application): Http = {
 
     lazy val urlFetchTimeout: Duration =
       configuration.getDuration(Http.Timeout, default = 60.seconds)
