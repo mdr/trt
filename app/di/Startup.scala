@@ -1,34 +1,40 @@
 package di
-import com.google.inject._
-import play.api.Application
+
+import scala.concurrent.Future
 import scala.concurrent.duration._
-import play.api._
+import com.google.inject.ImplementedBy
+import com.google.inject.Inject
+import com.google.inject.Singleton
+import com.thetestpeople.trt.Config.Ci
+import com.thetestpeople.trt.Config.CountsCalculator
+import com.thetestpeople.trt.importer.CiImportWorker
+import com.thetestpeople.trt.model.impl.migration.DbMigrator
+import com.thetestpeople.trt.service.Service
+import com.thetestpeople.trt.service.ServiceImpl
+import com.thetestpeople.trt.utils.HasLogger
+import com.thetestpeople.trt.utils.RichConfiguration.RichConfig
+import controllers.ControllerHelper
+import play.api.Application
+import play.api.Configuration
 import play.api.libs.concurrent.Akka
 import play.api.libs.concurrent.Execution.Implicits._
-import com.thetestpeople.trt.utils.RichConfiguration._
-import com.thetestpeople.trt.Config._
-import com.thetestpeople.trt.utils.HasLogger
-import scala.concurrent.Future
-import play.api.mvc.WithFilters
-import com.thetestpeople.trt.filters.LoggingFilter
-import controllers.ControllerHelper
-import com.thetestpeople.trt.model.impl.migration.DbMigrator
-import com.thetestpeople.trt.importer.CiImportWorker
-import com.thetestpeople.trt.service.Service
-
-@ImplementedBy(classOf[StartupImpl])
-trait Startup
+import play.api.inject.ApplicationLifecycle
 
 @Singleton
-class StartupImpl @Inject() (
+class Startup @Inject() (
     app: Application,
+    lifecycle: ApplicationLifecycle,
     dbMigrator: DbMigrator,
     ciImportWorker: CiImportWorker,
-    service: Service) extends Startup with HasLogger {
+    service: Service) extends HasLogger {
 
-  onStart(app)
+  onStart()
 
-  def onStart(app: Application) {
+  lifecycle.addStopHook { () ⇒
+    Future.successful(onStop())
+  }
+
+  def onStart() {
     logger.debug("onStart()")
     dbMigrator.migrate()
 
@@ -76,7 +82,7 @@ class StartupImpl @Inject() (
     logger.info("Scheduled analysis of all executions")
   }
 
-  def onStop(app: Application) {
+  def onStop() {
     logger.debug("onStop()")
     ciImportWorker.stop()
   }

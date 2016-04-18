@@ -17,6 +17,7 @@
   
   <logger name="play" level="INFO" />
   <logger name="application" level="INFO" />
+  <logger name="di" level="INFO" />
   <logger name="controllers" level="DEBUG" />
   <logger name="com.thetestpeople" level="DEBUG" />
 
