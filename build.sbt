@@ -12,26 +12,26 @@ version := "0.8.1-SNAPSHOT"
 
 scalacOptions ++= List("-deprecation", "-feature")
 
-scalaVersion := "2.11.6"
+scalaVersion := "2.11.8"
 
 // == Dependencies ============================================================================
 
 libraryDependencies ++= List(
   ws,
   jdbc,
-  "com.google.guava" % "guava" % "18.0",
+  "com.google.guava" % "guava" % "19.0",
   "com.google.code.findbugs" % "jsr305" % "2.0.3", // Workaround for scalac/Guava clash, SI-7751 
   "com.typesafe.slick" %% "slick" % "2.1.0",
-  "com.h2database" % "h2" % "1.3.166",
+  "com.h2database" % "h2" % "1.4.191",
   "postgresql" % "postgresql" % "9.1-901.jdbc4",
   "com.ocpsoft" % "ocpsoft-pretty-time" % "1.0.7",
-  "joda-time" % "joda-time" % "2.3",
+  "joda-time" % "joda-time" % "2.9.3",
   "org.pegdown" % "pegdown" % "1.0.2", // Needed for error when generating report: https://groups.google.com/forum/#!topic/scalatest-users/6TGms7jYn6E
-  "org.joda" % "joda-convert" % "1.5",
+  "org.joda" % "joda-convert" % "1.8.1",
   "com.github.tototoshi" %% "slick-joda-mapper" % "1.2.0",
   "com.github.nscala-time" %% "nscala-time" % "1.4.0",
   "commons-validator" % "commons-validator" % "1.4.0",
-  "commons-io" % "commons-io" % "2.2",
+  "commons-io" % "commons-io" % "2.4",
   "org.apache.lucene" % "lucene-core" % "4.9.0",
   "org.apache.lucene" % "lucene-analyzers-common" % "4.9.0",
   "org.apache.lucene" % "lucene-highlighter" % "4.9.0",
