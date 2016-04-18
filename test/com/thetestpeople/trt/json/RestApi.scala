@@ -14,7 +14,7 @@ import play.api.mvc.Call
 import play.api.libs.ws.WSClient
 import play.api.libs.ws.ning.NingWSClient
 import play.api.libs.ws.ning.NingAsyncHttpClientConfigBuilder
-import play.api.libs.ws.DefaultWSClientConfig
+//import play.api.libs.ws.DefaultWSClientConfig
 import com.thetestpeople.trt.utils.WsUtils
 
 object RestApi {

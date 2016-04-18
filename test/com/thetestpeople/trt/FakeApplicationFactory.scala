@@ -15,6 +15,6 @@ object FakeApplicationFactory {
       Db.Default.User -> "",
       Db.Default.Password -> "",
       Lucene.InMemory -> "true"),
-    additionalPlugins = Seq(classOf[DontStopBoneCPPlugin].getName))
+    additionalPlugins = Seq(/* classOf[DontStopBoneCPPlugin].getName */))
 
 }
