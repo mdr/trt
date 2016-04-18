@@ -28,3 +28,4 @@ webcache/
 luceneIndex/
 .cache-main
 .cache-tests
+.DS_Store

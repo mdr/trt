@@ -44,8 +44,9 @@ libraryDependencies ++= List(
 
 libraryDependencies ++= List(
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
-  "org.seleniumhq.selenium" % "selenium-java" % "2.46.0" % "test",
-  "com.github.detro.ghostdriver" % "phantomjsdriver" % "1.1.0" % "test")
+  "org.seleniumhq.selenium" % "selenium-java" % "2.52.0" % "test",
+  "org.seleniumhq.selenium" % "selenium-htmlunit-driver" % "2.52.0" % "test",
+  "com.codeborne" % "phantomjsdriver" % "1.2.1" % "test")
 
 // == Imports =================================================================================
 
@@ -58,7 +59,7 @@ routesImport ++= List(
   "java.net.URI")
 
 TwirlKeys.templateImports ++= Seq(
-  "viewModel._", 
+  "viewModel._",
   "com.thetestpeople.trt.model._",
   "com.thetestpeople.trt.model.jenkins._",
   "java.net.URI",
@@ -88,7 +89,7 @@ resourceDirectory in Test <<= baseDirectory(_ / "testResources")
 
 // Override specs2 options
 // & Stop problem with tests executing twice because of "JUnitRunner" annotation:
-(testOptions in Test) := Seq(Tests.Argument(TestFrameworks.JUnit, "--ignore-runners=org.scalatest.junit.JUnitRunner")) 
+(testOptions in Test) := Seq(Tests.Argument(TestFrameworks.JUnit, "--ignore-runners=org.scalatest.junit.JUnitRunner"))
 
 // Generate HTML report
 (testOptions in Test) += Tests.Argument(TestFrameworks.ScalaTest, "-h", "target/report")
