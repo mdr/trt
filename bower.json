@@ -18,7 +18,7 @@
     "flot": "~0.8.3",
     "bootstrap": "~3.2.0",
     "moment": "~2.8.2",
-    "jQuery": "~2.1.1",
+    "jQuery": "~2.2.3",
     "bootbox": "~4.3.0",
     "fontawesome": "~4.2.0",
     "typeahead.js": "~0.10.5",

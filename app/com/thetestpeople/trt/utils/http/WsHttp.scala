@@ -6,7 +6,7 @@ import scala.concurrent.Future
 import scala.concurrent.duration.Duration
 import scala.concurrent.duration._
 import com.ning.http.client.Realm.AuthScheme
-import play.api.libs.ws.Response
+import play.api.libs.ws.WSResponse
 import play.api.libs.ws.WS._
 import play.api.libs.ws._
 import play.api.Play.current
@@ -41,8 +41,8 @@ class WsHttp(client: WSClient = WS.client, timeout: Duration = 60.seconds) exten
     HttpResponse(response.status, response.statusText, response.body)
   }
 
-  private implicit class EnhancedRequestHolder(request: WSRequestHolder) {
-    def withBasicAuth(credentialsOpt: Option[Credentials]): WSRequestHolder = credentialsOpt match {
+  private implicit class EnhancedRequestHolder(request: WSRequest) {
+    def withBasicAuth(credentialsOpt: Option[Credentials]): WSRequest = credentialsOpt match {
       case Some(Credentials(username, apiToken)) ⇒ request.withAuth(username, apiToken, WSAuthScheme.BASIC)
       case None                                  ⇒ request
     }

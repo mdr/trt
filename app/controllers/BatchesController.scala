@@ -9,6 +9,7 @@ import play.Logger
 import play.api.mvc._
 import viewModel._
 import java.net.URI
+import com.google.inject.Inject
 
 object BatchesController {
 
@@ -19,7 +20,7 @@ object BatchesController {
 /**
  * Controller for the Batches screen.
  */
-class BatchesController(service: Service) extends AbstractController(service) with HasLogger {
+class BatchesController @Inject() (service: Service) extends AbstractController(service) with HasLogger {
 
   import BatchesController._
 

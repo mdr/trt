@@ -1,23 +1,42 @@
+package com.thetestpeople.trt
+
+import scala.concurrent.Future
 import scala.concurrent.duration._
-import play.api._
+import com.google.inject.ImplementedBy
+import com.google.inject.Inject
+import com.google.inject.Singleton
+import com.thetestpeople.trt.Config.Ci
+import com.thetestpeople.trt.Config.CountsCalculator
+import com.thetestpeople.trt.importer.CiImportWorker
+import com.thetestpeople.trt.model.impl.migration.DbMigrator
+import com.thetestpeople.trt.service.Service
+import com.thetestpeople.trt.service.ServiceImpl
+import com.thetestpeople.trt.utils.HasLogger
+import com.thetestpeople.trt.utils.RichConfiguration.RichConfig
+import controllers.ControllerHelper
+import play.api.Application
+import play.api.Configuration
 import play.api.libs.concurrent.Akka
 import play.api.libs.concurrent.Execution.Implicits._
-import com.thetestpeople.trt.utils.RichConfiguration._
-import com.thetestpeople.trt.Config._
-import com.thetestpeople.trt.utils.HasLogger
-import scala.concurrent.Future
-import play.api.mvc.WithFilters
-import com.thetestpeople.trt.filters.LoggingFilter
-import controllers.ControllerHelper
+import play.api.inject.ApplicationLifecycle
 
-object Global extends WithFilters(LoggingFilter) with GlobalSettings with HasLogger {
+@Singleton
+class Startup @Inject() (
+    app: Application,
+    lifecycle: ApplicationLifecycle,
+    dbMigrator: DbMigrator,
+    ciImportWorker: CiImportWorker,
+    service: Service) extends HasLogger {
 
-  private var factory: Factory = _
+  onStart()
 
-  override def onStart(app: Application) {
+  lifecycle.addStopHook { () ⇒
+    Future.successful(onStop())
+  }
+
+  def onStart() {
     logger.debug("onStart()")
-    factory = new Factory(Play.current.configuration)
-    factory.dbMigrator.migrate()
+    dbMigrator.migrate()
 
     for (name ← app.configuration.getString("ui.applicationName"))
       ControllerHelper.applicationName = name
@@ -29,7 +48,7 @@ object Global extends WithFilters(LoggingFilter) with GlobalSettings with HasLog
 
   private def initialiseCiImportWorker(app: Application) {
     Future {
-      factory.ciImportWorker.run()
+      ciImportWorker.run()
     }
   }
 
@@ -43,7 +62,7 @@ object Global extends WithFilters(LoggingFilter) with GlobalSettings with HasLog
 
     if (conf.getBoolean(Ci.Poller.Enabled).getOrElse(true)) {
       Akka.system(app).scheduler.schedule(initialDelay, interval) {
-        factory.service.syncAllCiImports()
+        service.syncAllCiImports()
       }
       logger.info("Initialised CI import poller")
     }
@@ -55,19 +74,17 @@ object Global extends WithFilters(LoggingFilter) with GlobalSettings with HasLog
     val interval = conf.getDuration(CountsCalculator.Poller.Interval, default = 2.minutes)
 
     Akka.system(app).scheduler.scheduleOnce(Duration.Zero) {
-      factory.service.analyseAllExecutions()
+      service.analyseAllExecutions()
     }
     Akka.system(app).scheduler.schedule(initialDelay, interval) {
-      factory.service.analyseAllExecutions()
+      service.analyseAllExecutions()
     }
     logger.info("Scheduled analysis of all executions")
   }
 
-  override def onStop(app: Application) {
+  def onStop() {
     logger.debug("onStop()")
-    factory.ciImportWorker.stop()
+    ciImportWorker.stop()
   }
-
-  override def getControllerInstance[A](clazz: Class[A]): A = factory.getControllerInstance(clazz)
 
 }

@@ -14,17 +14,17 @@ class ApplicationTest extends FlatSpec with Matchers {
 
   "Application" should "send 404 on a bad request" in {
     Helpers.running(FakeApplicationFactory.fakeApplication) {
-      route(FakeRequest(GET, "/boom")) should equal(None)
+      route(FakeRequest(GET, "/boom")).map(status(_)).get should equal(NOT_FOUND)
     }
   }
 
   it should "render the tests page" in {
     Helpers.running(FakeApplicationFactory.fakeApplication) {
-      val home = route(FakeRequest(GET, "/tests")).get
+      val home = route(FakeRequest(GET, "/dashboard")).get
 
       status(home) should be(OK)
       contentType(home) should be(Some("text/html"))
-      contentAsString(home) should include("Tests")
+      contentAsString(home) should include("Dashboard")
     }
   }
 

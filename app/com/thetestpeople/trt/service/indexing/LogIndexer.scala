@@ -3,7 +3,9 @@ package com.thetestpeople.trt.service.indexing
 import com.thetestpeople.trt.model.EnrichedExecution
 import com.thetestpeople.trt.model.Id
 import com.thetestpeople.trt.model.Execution
+import com.google.inject.ImplementedBy
 
+@ImplementedBy(classOf[LuceneLogIndexer])
 trait LogIndexer {
 
   def addExecutions(executions: Seq[EnrichedExecution])

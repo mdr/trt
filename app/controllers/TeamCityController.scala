@@ -2,17 +2,19 @@ package controllers
 
 import com.thetestpeople.trt.service.Service
 import com.thetestpeople.trt.utils.HasLogger
-
 import play.api.data.Form
 import play.api.mvc._
 import routes.ImportSpecController
 import viewModel._
 import views.html
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
+import com.google.inject.Inject
 
 /**
  * Controller for TeamCity config screen
  */
-class TeamCityController(service: Service) extends AbstractController(service) with HasLogger {
+class TeamCityController @Inject() (service: Service) extends AbstractController(service) with HasLogger {
 
   def teamCityConfig() = Action { implicit request ⇒
     Ok(html.teamCityConfig(getTeamCityConfigurationForm))

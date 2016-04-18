@@ -8,6 +8,7 @@
 * Allow user to ignore a test in a configuration
 * Add an /api/tests API method
 * Show last failed summary for each test
+* Upgrade to Play 2.4
 	
 0.8.0 (9/Nov/2014)
 

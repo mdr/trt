@@ -5,8 +5,11 @@ import play.api.Logger
 import com.thetestpeople.trt.utils.HasLogger
 import com.thetestpeople.trt.service.indexing.LogIndexer
 import com.thetestpeople.trt.analysis.AnalysisService
+import com.google.inject.Singleton
+import com.google.inject.Inject
 
-class AdminServiceImpl(dao: Dao, logIndexer: LogIndexer, analysisService: AnalysisService) extends AdminService with HasLogger {
+@Singleton
+class AdminServiceImpl @Inject() (dao: Dao, logIndexer: LogIndexer, analysisService: AnalysisService) extends AdminService with HasLogger {
 
   def deleteAll() {
     dao.deleteAll()

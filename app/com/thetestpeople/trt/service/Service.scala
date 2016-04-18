@@ -10,6 +10,7 @@ import com.thetestpeople.trt.analysis.HistoricalTestCountsTimeline
 import com.thetestpeople.trt.analysis.ExecutionVolume
 import com.thetestpeople.trt.analysis.ExecutionTimeMAD
 import com.thetestpeople.trt.analysis.AllHistoricalTestCounts
+import com.google.inject.ImplementedBy
 
 case class TestsInfo(tests: Seq[EnrichedTest], testCounts: TestCounts, ignoredTests: Seq[Id[Test]])
 
@@ -34,6 +35,7 @@ object AddCategoryResult {
   case object DuplicateCategory extends AddCategoryResult
 }
 
+@ImplementedBy(classOf[ServiceImpl])
 trait Service extends CiService {
 
   def addBatch(batch: Incoming.Batch): Id[Batch]

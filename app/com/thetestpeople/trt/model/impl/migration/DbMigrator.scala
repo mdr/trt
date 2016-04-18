@@ -10,8 +10,10 @@ import java.sql.Connection
 import liquibase.Contexts
 import com.thetestpeople.trt.utils.HasLogger
 import play.api.Play
+import com.google.inject._
 
-class DbMigrator(dataSource: DataSource) extends HasLogger {
+@Singleton
+class DbMigrator @Inject() (dataSource: DataSource) extends HasLogger {
 
   def migrate() {
     logger.info("Updating DB if required")

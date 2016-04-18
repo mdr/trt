@@ -11,11 +11,12 @@ import viewModel._
 import java.net.URI
 import play.api.libs.json._
 import com.thetestpeople.trt.json.JsonSerializers._
+import com.google.inject.Inject
 
 /**
  * Controller for Batch and Batch Log screen
  */
-class BatchController(service: Service) extends AbstractController(service) with HasLogger {
+class BatchController @Inject() (service: Service) extends AbstractController(service) with HasLogger {
 
   def batch(batchId: Id[Batch], passedFilterOpt: Option[Boolean], pageOpt: Option[Int], pageSizeOpt: Option[Int]) = Action { implicit request ⇒
     Pagination.validate(pageOpt, pageSizeOpt) match {

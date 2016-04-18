@@ -9,11 +9,12 @@ import play.Logger
 import play.api.mvc._
 import viewModel._
 import java.net.URI
+import com.google.inject.Inject
 
 /**
  * Controller for the Test screen.
  */
-class TestController(service: Service) extends AbstractController(service) with RerunTestHandler with HasLogger {
+class TestController @Inject() (service: Service) extends AbstractController(service) with RerunTestHandler with HasLogger {
 
   def test(testId: Id[Test], configurationOpt: Option[Configuration], resultOpt: Option[Boolean], pageOpt: Option[Int], pageSizeOpt: Option[Int]) = Action { implicit request ⇒
     Pagination.validate(pageOpt, pageSizeOpt) match {

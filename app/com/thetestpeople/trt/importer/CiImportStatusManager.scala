@@ -9,11 +9,13 @@ import java.net.URL
 import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 import org.joda.time.DateTime
+import com.google.inject._
 
 /**
  * Stores information about the state of ongoing Jenkins imports.
  */
-class CiImportStatusManager(clock: Clock) {
+@Singleton
+class CiImportStatusManager @Inject() (clock: Clock) {
 
   private val lock: Lock = new ReentrantLock
 

@@ -3,10 +3,13 @@ package com.thetestpeople.trt.model.jenkins
 import com.thetestpeople.trt.model._
 import org.joda.time._
 import java.net.URI
+import com.google.inject.ImplementedBy
+import com.thetestpeople.trt.model.impl.SlickDao
 
 /**
  * DAO for storing data related to CI (continuous integration) jobs & builds
  */
+@ImplementedBy(classOf[SlickDao])
 trait CiDao {
 
   /**

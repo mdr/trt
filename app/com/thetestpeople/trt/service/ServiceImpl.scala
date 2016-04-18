@@ -14,8 +14,11 @@ import com.thetestpeople.trt.service.indexing.ExecutionHit
 import com.thetestpeople.trt.service.indexing.SearchResult
 import org.joda.time.DateTime
 import org.joda.time.Duration
+import com.google.inject.Singleton
+import com.google.inject.Inject
 
-class ServiceImpl(
+@Singleton
+class ServiceImpl @Inject() (
   protected val dao: Dao,
   protected val clock: Clock,
   protected val http: Http,
