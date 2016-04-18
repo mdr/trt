@@ -2,11 +2,11 @@ package controllers
 
 import com.thetestpeople.trt.service._
 import com.thetestpeople.trt.utils.HasLogger
-
 import play.api.mvc._
 import viewModel._
+import com.google.inject.Inject
 
-class AdminController(service: Service, adminService: AdminService) extends AbstractController(service) with HasLogger {
+class AdminController @Inject() (service: Service, adminService: AdminService) extends AbstractController(service) with HasLogger {
 
   def admin() = Action { implicit request ⇒
     Ok(views.html.admin())

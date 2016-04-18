@@ -10,11 +10,12 @@ import play.api.mvc._
 import viewModel._
 import java.net.URI
 import com.thetestpeople.trt.jenkins.trigger.TriggerResult
+import com.google.inject.Inject
 
 /**
  * Controller for the Tests screen.
  */
-class TestsController(service: Service) extends AbstractController(service) with RerunTestHandler with HasLogger {
+class TestsController @Inject() (service: Service) extends AbstractController(service) with RerunTestHandler with HasLogger {
 
   def tests(
     configurationOpt: Option[Configuration],

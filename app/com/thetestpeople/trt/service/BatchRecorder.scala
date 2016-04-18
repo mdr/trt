@@ -7,8 +7,9 @@ import com.thetestpeople.trt.service.indexing.LogIndexer
 import org.joda.time.Duration
 import scala.PartialFunction.condOpt
 import com.github.nscala_time.time.Imports._
+import com.google.inject.Inject
 
-class BatchRecorder(dao: Dao, clock: Clock, analysisService: AnalysisService, logIndexer: LogIndexer) extends HasLogger {
+class BatchRecorder @Inject() (dao: Dao, clock: Clock, analysisService: AnalysisService, logIndexer: LogIndexer) extends HasLogger {
 
   def recordBatch(incomingBatch: Incoming.Batch): Batch = Utils.time("BatchRecorder.recordBatch") {
     val affectedEntities = dao.transaction {

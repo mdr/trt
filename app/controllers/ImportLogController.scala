@@ -6,12 +6,12 @@ import com.thetestpeople.trt.model.jenkins._
 import com.thetestpeople.trt.service.Service
 import com.thetestpeople.trt.utils.HasLogger
 import com.thetestpeople.trt.utils.Utils
-
 import play.api.mvc.Action
 import viewModel._
 import views.html
+import com.google.inject.Inject
 
-class ImportLogController(service: Service) extends AbstractController(service) with HasLogger {
+class ImportLogController @Inject() (service: Service) extends AbstractController(service) with HasLogger {
 
   def getCiImportSpec(id: Id[CiImportSpec], pageOpt: Option[Int], pageSizeOpt: Option[Int]) = Action { implicit request ⇒
     Pagination.validate(pageOpt, pageSizeOpt) match {

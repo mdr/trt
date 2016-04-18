@@ -13,11 +13,12 @@ import play.api.libs.json._
 import com.thetestpeople.trt.json.JsonSerializers._
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import com.google.inject.Inject
 
 /**
  * Controller for miscellaneous screens
  */
-class Application(service: Service) extends AbstractController(service) with HasLogger {
+class Application @Inject() (service: Service) extends AbstractController(service) with HasLogger {
 
   def index = Action {
     Redirect(routes.Application.configurations())

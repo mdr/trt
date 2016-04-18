@@ -11,6 +11,7 @@ import play.api.libs.json._
 import play.api.mvc._
 import com.thetestpeople.trt.utils.Utils
 import com.thetestpeople.trt.json.TestApiView
+import com.google.inject.Inject
 
 object ApiController {
 
@@ -18,7 +19,7 @@ object ApiController {
 
 }
 
-class ApiController(service: Service, adminService: AdminService) extends AbstractController(service) with HasLogger {
+class ApiController @Inject() (service: Service, adminService: AdminService) extends AbstractController(service) with HasLogger {
 
   def addBatch = Action(parse.json(maxLength = ApiController.MaxBatchJsonSize)) { implicit request ⇒
     Utils.time("ApiController.addBatch()") {

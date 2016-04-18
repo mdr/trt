@@ -9,11 +9,12 @@ import play.Logger
 import play.api.mvc._
 import viewModel._
 import java.net.URI
+import com.google.inject.Inject
 
 /**
  * Controller for the Execution screen.
  */
-class ExecutionController(service: Service) extends AbstractController(service) with HasLogger {
+class ExecutionController @Inject() (service: Service) extends AbstractController(service) with HasLogger {
 
   def execution(executionId: Id[Execution]) = Action { implicit request ⇒
     service.getExecution(executionId) match {

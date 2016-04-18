@@ -2,7 +2,6 @@ package controllers
 
 import com.thetestpeople.trt.service.Service
 import com.thetestpeople.trt.utils.HasLogger
-
 import play.api.data.Form
 import play.api.mvc._
 import routes.ImportSpecController
@@ -10,11 +9,12 @@ import viewModel._
 import views.html
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import com.google.inject.Inject
 
 /**
  * Controller for Jenkins config screen
  */
-class JenkinsController(service: Service) extends AbstractController(service) with HasLogger {
+class JenkinsController @Inject() (service: Service) extends AbstractController(service) with HasLogger {
 
   def auth() = Action { implicit request ⇒
     Ok(html.jenkinsAuth(getJenkinsConfigurationForm))

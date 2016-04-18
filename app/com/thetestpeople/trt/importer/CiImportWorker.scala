@@ -4,7 +4,9 @@ import com.thetestpeople.trt.model._
 import com.thetestpeople.trt.model.jenkins._
 import com.thetestpeople.trt.utils.CoalescingBlockingQueue
 import com.thetestpeople.trt.utils.HasLogger
+import com.google.inject._
 
+@ImplementedBy(classOf[CiImportWorker])
 trait CiImportQueue {
 
   /**
@@ -17,7 +19,8 @@ trait CiImportQueue {
 /**
  * Examine CI jobs to examine for any new builds to import.
  */
-class CiImportWorker(dao: CiDao, ciImporter: CiImporter) extends CiImportQueue with HasLogger {
+@Singleton
+class CiImportWorker @Inject() (dao: CiDao, ciImporter: CiImporter) extends CiImportQueue with HasLogger {
 
   import dao.transaction
 

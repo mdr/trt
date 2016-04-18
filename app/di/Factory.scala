@@ -42,7 +42,7 @@ class Factory @Inject() (configuration: Configuration) {
 
   lazy val dao: SlickDao = new SlickDao(jdbcUrl, Some(dataSource))
 
-  lazy val clock: Clock = SystemClock
+  lazy val clock: Clock = new SystemClock
 
   lazy val initialDelay: Duration =
     configuration.getDuration(Http.Timeout, default = 60.seconds)

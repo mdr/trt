@@ -11,8 +11,10 @@ import com.thetestpeople.trt.utils.http.Http
 import com.thetestpeople.trt.importer._
 import com.thetestpeople.trt.importer.jenkins.JenkinsImporter
 import com.thetestpeople.trt.importer.teamcity.TeamCityImporter
+import com.google.inject._
 
-class CiImporter(
+@Singleton
+class CiImporter @Inject() (
     clock: Clock,
     http: Http,
     dao: CiDao,

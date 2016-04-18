@@ -19,8 +19,9 @@ import views.html
 import com.thetestpeople.trt.utils.Utils
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import com.google.inject.Inject
 
-class ImportSpecController(service: Service) extends AbstractController(service) with HasLogger {
+class ImportSpecController @Inject() (service: Service) extends AbstractController(service) with HasLogger {
 
   def ciImportSpecs() = Action { implicit request ⇒
     val specs = service.getCiImportSpecs.map(makeView).sortBy(_.jobUrl).toList

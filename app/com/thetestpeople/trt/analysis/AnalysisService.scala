@@ -10,12 +10,18 @@ import java.util.concurrent._
 import java.util.concurrent.locks.ReentrantLock
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.locks.Lock
+import com.google.inject.Singleton
+import com.google.inject.Inject
 
 /**
  * @param async -- if true, process analysis asynchronously on background worker threads. If false, perform the analysis
  *   immediately when scheduled (useful for predictable testing).
  */
-class AnalysisService(dao: Dao, clock: Clock, async: Boolean = true) extends HasLogger {
+@Singleton
+class AnalysisService (dao: Dao, clock: Clock, async: Boolean = true) extends HasLogger {
+
+  @Inject
+  def this(dao: Dao, clock: Clock) = this(dao, clock, async = true)
 
   private val analysisResultLock: Lock = new ReentrantLock
 
