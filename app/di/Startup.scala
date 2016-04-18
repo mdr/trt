@@ -1,7 +1,6 @@
 package di
 import com.google.inject._
 import play.api.Application
-
 import scala.concurrent.duration._
 import play.api._
 import play.api.libs.concurrent.Akka
@@ -13,15 +12,25 @@ import scala.concurrent.Future
 import play.api.mvc.WithFilters
 import com.thetestpeople.trt.filters.LoggingFilter
 import controllers.ControllerHelper
+import com.thetestpeople.trt.model.impl.migration.DbMigrator
+import com.thetestpeople.trt.importer.CiImportWorker
+import com.thetestpeople.trt.service.Service
+
+@ImplementedBy(classOf[StartupImpl])
+trait Startup
 
 @Singleton
-class Startup @Inject() (app: Application, factory: Factory) extends HasLogger {
+class StartupImpl @Inject() (
+    app: Application,
+    dbMigrator: DbMigrator,
+    ciImportWorker: CiImportWorker,
+    service: Service) extends Startup with HasLogger {
 
   onStart(app)
-  
+
   def onStart(app: Application) {
     logger.debug("onStart()")
-    factory.dbMigrator.migrate()
+    dbMigrator.migrate()
 
     for (name ← app.configuration.getString("ui.applicationName"))
       ControllerHelper.applicationName = name
@@ -33,7 +42,7 @@ class Startup @Inject() (app: Application, factory: Factory) extends HasLogger {
 
   private def initialiseCiImportWorker(app: Application) {
     Future {
-      factory.ciImportWorker.run()
+      ciImportWorker.run()
     }
   }
 
@@ -47,7 +56,7 @@ class Startup @Inject() (app: Application, factory: Factory) extends HasLogger {
 
     if (conf.getBoolean(Ci.Poller.Enabled).getOrElse(true)) {
       Akka.system(app).scheduler.schedule(initialDelay, interval) {
-        factory.service.syncAllCiImports()
+        service.syncAllCiImports()
       }
       logger.info("Initialised CI import poller")
     }
@@ -59,17 +68,17 @@ class Startup @Inject() (app: Application, factory: Factory) extends HasLogger {
     val interval = conf.getDuration(CountsCalculator.Poller.Interval, default = 2.minutes)
 
     Akka.system(app).scheduler.scheduleOnce(Duration.Zero) {
-      factory.service.analyseAllExecutions()
+      service.analyseAllExecutions()
     }
     Akka.system(app).scheduler.schedule(initialDelay, interval) {
-      factory.service.analyseAllExecutions()
+      service.analyseAllExecutions()
     }
     logger.info("Scheduled analysis of all executions")
   }
 
-   def onStop(app: Application) {
+  def onStop(app: Application) {
     logger.debug("onStop()")
-    factory.ciImportWorker.stop()
+    ciImportWorker.stop()
   }
 
 }
